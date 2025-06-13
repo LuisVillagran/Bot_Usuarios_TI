@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Asistente Virtual</title>
+    <!-- Enlace a la hoja de estilos externa -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Título del chatbot -->
+    <div id="chat-background-title">Bot de Asistencia de TI</div>
+
+    <!-- Contenedor general del chat -->
+    <div class="chat-container">
+        <!-- Área de mensajes -->
+        <div class="chat-box" id="chat-box"></div>
+
+        <!-- Área de entrada de texto -->
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Escribe tu mensaje..." autocomplete="off">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+
+    <!-- Script que maneja el chat -->
+    <script>
+        // Función para agregar mensajes al chat
+        function appendMessage(sender, text) {
+            const chatBox = document.getElementById("chat-box");
+
+            // Crear contenedor para el mensaje
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add(sender); // 'user' o 'bot'
+
+            // Crear span con el texto del mensaje
+            const messageSpan = document.createElement("span");
+            if (sender === "user") {
+                messageSpan.innerText = "Cliente: " + text;
+            } else {
+                messageSpan.innerText = text;
+            }
+
+            // Crear span con la hora actual
+            const timeSpan = document.createElement("span");
+            const now = new Date();
+            timeSpan.classList.add("timestamp");
+            timeSpan.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Añadir texto y hora al div del mensaje
+            messageDiv.appendChild(messageSpan);
+            messageDiv.appendChild(timeSpan);
+
+            // Agregar mensaje al chat
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Función que envía el mensaje del usuario al backend y recibe respuesta
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const message = input.value.trim();
+            if (message === "") return;
+
+            // Mostrar el mensaje del usuario
+            appendMessage("user", message);
+            input.value = "";
+
+            // Enviar al backend (/chat)
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: message })
+            });
+
+            const data = await response.json();
+            // Mostrar la respuesta del bot
+            appendMessage("bot", data.response);
+        }
+
+        // Permite enviar el mensaje al presionar Enter
+        document.addEventListener("DOMContentLoaded", () => {
+            const input = document.getElementById("user-input");
+            input.addEventListener("keydown", (event) => {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // Evita salto de línea
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

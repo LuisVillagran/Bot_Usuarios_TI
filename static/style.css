@@ -1,0 +1,181 @@
+/* Estilo general del body */
+/* style.css (agrega esto o ajústalo en tu archivo existente) */
+
+/* Estilo general del body */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #2b2f3a, #3e4451);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+/* Contenedor del chat */
+.chat-container {
+    width: 100%;
+    margin-top: 50px; /* Mueve de Arriba a abajo el Chat */
+    max-width: 750px; /* Se vuelve mas Ancho el Chat */
+    height: 80vh; /* Altura relativa a la pantalla */
+    background-color: #1e1e1e;
+    border-radius: 16px;
+    padding: 20px; /* Agranda o Ahica los Bordes */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative; /* Importante para el posicionamiento del initial-state-container */
+    background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+}
+
+/* Estilos para el estado inicial (encabezado y posible input inicial) */
+#initial-state-container {
+    position: absolute; /* Posicionamiento absoluto dentro de chat-container */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    text-align: center;
+    background-color: #1e1e1e; /* Mismo fondo que chat-container */
+    z-index: 10; /* Asegura que esté por encima de chat-box inicialmente */
+    transition: opacity 0.3s ease; /* Para una transición suave */
+}
+
+
+#chat-background-title {
+    font-weight: 600;
+    letter-spacing: 1px;
+    position: absolute; /* Lo sacamos del flujo normal para superponerlo */
+    top: 20px; /* Ajusta la distancia desde la parte superior según necesites */
+    left: 50%; /* Lo centramos horizontalmente */
+    transform: translateX(-50%); /* Ajuste para el centrado exacto */
+    font-size: 1.5em; /* Tamaño del texto */
+    color: rgb(255, 255, 255); /* Color del texto con baja opacidad para que parezca de fondo */
+    z-index: 0; /* Asegura que esté detrás del contenido del chat (z-index del chat-box debería ser mayor) */
+    pointer-events: none; /* Permite que los clics pasen a través de él */
+    padding: 20px;
+    background-color: #1f1f1f;
+}
+
+/* Resto de tus estilos existentes para chat-box, input-area, user, bot, etc. */
+
+
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #333;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #262626;
+    margin-bottom: 15px;
+    display: none; /* Oculto por defecto, JS lo muestra */
+    z-index: 1; /* Asegura que esté encima del título de fondo */
+    display: flex; /* Convierte el chat-box en un contenedor flex */
+    flex-direction: column; /* Apila los mensajes verticalmente */
+}
+
+/* Área donde se escribe y se envía el mensaje */
+.input-area {
+    display: flex;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+    padding: 15px 20px;
+    gap: 10px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #1c1c1c;
+    color: #fff;
+}
+
+        /* Estilo para la hora del mensaje */
+        .timestamp {
+            font-size: 0.75em;
+            color: #bbb;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 9px;
+    background-color: #3a3aff;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para el botón */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #4752c4;
+    transform: translateY(-2px); /* Pequeño efecto de "levantarse" */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+button:active {
+    transform: translateY(0); /* Vuelve a su lugar al hacer clic */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Mensajes */
+.user {
+    background-color: #1d1d1d;
+    max-width: 70%;
+    align-self: flex-start;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px; /* Espacio entre mensajes */
+    color: #fff;
+    font-weight: 400; /* Texto normal */
+    line-height: 1.5; /* Mejora la legibilidad en bloques de texto */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.bot {
+    background-color: #3a3a3a;
+    align-self: flex-end;
+    max-width: 70%;
+    margin-left: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px; /* Espacio entre mensajes */
+    color: #fff;
+    font-weight: 400; /* Texto normal */
+    line-height: 1.5; /* Mejora la legibilidad en bloques de texto */
+    display: inline-block; /* Ocupa solo el ancho de su contenido */
+    max-width: 70%; /* Mantiene un ancho máximo para no desbordar */
+    word-wrap: break-word; /* Rompe palabras largas para evitar desbordamiento */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Agrega un icono para el usuario y para el bot */
+
+.user::before {
+    content: "👤 ";
+}
+.bot::before {
+    content: "🤖 ";
+}
+
+/* mejora la experiencia visual cuando se envía o recibe un mensaje */
+.user, .bot {
+    animation: fadeIn 0.4s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
